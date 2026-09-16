@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { type DBUser, type IUserModel, type IUserDocument, userDbSchema } from "./schemas/user.ts";
-import { CardModel as CardType, cardDBSchema } from "./schemas/card.ts";
+import { cardDBSchema, type CardDB } from "./schemas/card.ts";
 import authService from "../services/auth-service.ts";
 
 userDbSchema.methods.setPassword = async function (password: string) {
@@ -16,6 +16,6 @@ userDbSchema.statics.findByEmail = async function (email: string) {
 };
 
 const UserModel = mongoose.model<IUserDocument, IUserModel>("User", userDbSchema);
-const CardModel = mongoose.model<CardType>("Card", cardDBSchema);
+const CardModel = mongoose.model<CardDB>("Card", cardDBSchema);
 
 export { UserModel, CardModel };

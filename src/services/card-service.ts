@@ -30,13 +30,12 @@ const cardService = {
       bizNumber = Math.floor(Math.random() * 1_000_000);
     }
 
-    const card = new CardModel({
+    const savedCard = await CardModel.create({
       ...cardData,
       userId,
       bizNumber,
     });
 
-    const savedCard = await card.save();
     return savedCard;
   },
 
