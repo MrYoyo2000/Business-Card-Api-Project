@@ -1,0 +1,115 @@
+# ==================================================================================================
+# 👤 USER MANAGEMENT API - INTERACTIVE TUTORIAL
+# ==================================================================================================
+# 🚀 QUICK START GUIDE:
+# --------------------------------------------------------------------------------------------------
+# 1️⃣ REGISTER: Run "Request 1". If you see "Email already registered", change the email address.
+# 2️⃣ LOGIN: Run "Request 2". Copy the "token" from the response.
+# 3️⃣ SETUP: Paste the token into @authToken and the User ID into @userId below.
+# 4️⃣ TEST: Now run any of the "Account Management" requests.
+# --------------------------------------------------------------------------------------------------
+
+@baseUrl = http://localhost:3000/api/v1
+@authToken =
+@userId =
+
+# --------------------------------------------------------------------------------------------------
+# 🟢 PART 1: ACCOUNT SETUP (No Token Needed)
+# --------------------------------------------------------------------------------------------------
+
+### Request 1: Create Your Account (Register)
+# Use this to create a new user in the database.
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": {
+    "first": "Yossef",
+    "middleName": "",
+    "last": "Benamu"
+  },
+  "address": {
+    "street": "Main Street",
+    "city": "Modiin",
+    "country": "Israel",
+    "state": "Center",
+    "houseNumber": 10,
+    "zip": "12345"
+  },
+  "image": {
+    "alt": "profile picture",
+    "url": "https://picsum.photos/200/300"
+  },
+  "phone": "0547898883",
+  "email": "mr.yosef@gmail.com",
+  "isBusiness": true,
+  "isAdmin": true,
+  "password": "Yossef-b707!"
+}
+
+### Request 2: Get Your Access Token (Login)
+# Run this to get the JWT token required for all other requests.
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "mr.yosef@gmail.com",
+  "password": "Yossef-b707!"
+}
+
+# --------------------------------------------------------------------------------------------------
+# 🔵 PART 2: ACCOUNT MANAGEMENT (Requires @authToken)
+# --------------------------------------------------------------------------------------------------
+
+### Request 3: View All Users (Admin Only)
+# This request proves that your 'isAdmin' status is working.
+GET {{baseUrl}}/users
+Authorization: Bearer {{authToken}}
+
+### Request 4: View My Profile
+# Uses @userId to fetch your specific account details.
+GET {{baseUrl}}/users/{{userId}}
+Authorization: Bearer {{authToken}}
+
+### Request 5: Update My Profile
+# Change your details (e.g., update your phone or address).
+PUT {{baseUrl}}/users/{{userId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": {
+    "first": "Yossef",
+    "middleName": "Updated",
+    "last": "Benamu"
+  },
+  "address": {
+    "street": "New Street",
+    "city": "Modiin",
+    "country": "Israel",
+    "state": "Center",
+    "houseNumber": 20,
+    "zip": "12345"
+  },
+  "image": {
+    "alt": "updated profile",
+    "url": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+  },
+  "phone": "0546746541"
+}
+
+### Request 6: Toggle Business Status
+# Switch your account between 'Business' and 'Personal'.
+PATCH {{baseUrl}}/users/{{userId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "isBusiness": false
+}
+
+### Request 7: Delete My Account
+# Permanent removal of the account from the database.
+DELETE {{baseUrl}}/users/{{userId}}
+Authorization: Bearer {{authToken}}

@@ -1,0 +1,42 @@
+import { Schema } from "mongoose";
+import {type Address} from "../../validations/address"
+
+export const addressDBSchema = new Schema ({
+    country: {
+        type: String,
+        minlength: 2,
+        maxlength: 50,
+        required: true,
+    },
+    city:{
+        type: String,
+        minlength: 2,
+        maxlength: 100,
+        required: true,
+    },
+    street: {
+        type: String,
+        minlength: 2,
+        maxlength: 250,
+        required: true,
+    },
+    state: {
+        type: String,
+        minlength: 2,
+        maxlength: 100,
+        required: false,
+        default: "",
+    },
+    zip: {
+        type: String,
+        maxlength: 30,
+        required: false,
+        default: "",
+    },
+    houseNumber: {
+        type: Number,
+        min: 1,
+        max: 999999,
+        required: true,
+    },
+});

@@ -1,0 +1,3 @@
+allowBuilds:
+  bson: false
+  kerberos: false

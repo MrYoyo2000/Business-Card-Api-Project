@@ -1,0 +1,26 @@
+{
+"compilerOptions": {
+    /* Target & Environment */
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node","express"],
+
+    /* Interop & Emitting */
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Strict Extensions & Imports */
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+
+    /* Type Checking Rules */
+    "strict": false,
+    "skipLibCheck": true
+},
+
+"include": ["src/**/*"],
+"exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,77 @@
+export const InitialUsers = [
+{
+    name: {
+        first: "Alexander",
+        middleName: "Julian",
+        last: "Vance",
+    },
+    address: {
+        street: "Oakridge Avenue",
+        city: "Toronto",
+        country: "Canada",
+        state: "Ontario",
+        houseNumber: 142,
+        zip: "85412",
+    },
+    image: {
+        alt: "alexander vance profile",
+        url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+    },
+        phone: "0524819034",
+        email: "a.vance@techcorp.io",
+        isBusiness: true,
+        password: "AlexPassword99!",
+        createdAt: new Date(),
+        isAdmin: true,
+},
+{
+    name: {
+        first: "Elena",
+        middleName: "",
+        last: "Rostova",
+    },
+    address: {
+        street: "Via Roma",
+        city: "Milan",
+        country: "Italy",
+        state: "Lombardy",
+        houseNumber: 88,
+        zip: "40123",
+    },
+    image: {
+        alt: "elena rostova profile",
+        url: "",
+    },
+        phone: "0587712390",
+        email: "elena.design@studio.com",
+        isBusiness: true,
+        password: "ElenaDesign2026!",
+        createdAt: new Date(),
+        isAdmin: false,
+},
+{
+    name: {
+        first: "Liam",
+        middleName: "Patrick",
+        last: "O'Connor",
+    },
+    address: {
+        street: "Grafton Street",
+        city: "Dublin",
+        country: "Ireland",
+        state: "Leinster",
+        houseNumber: 15,
+        zip: "90210",
+    },
+    image: {
+        alt: "liam oconnor profile",
+        url: "",
+    },
+    phone: "0509934156",
+    email: "liam.oc@outlook.com",
+    isBusiness: false,
+    password: "LiamUser789!",
+    createdAt: new Date(),
+    isAdmin: false,
+},
+];

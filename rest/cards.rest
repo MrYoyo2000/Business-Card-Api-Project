@@ -1,0 +1,111 @@
+
+# ==================================================================================================
+# 📇 BUSINESS CARDS API - INTERACTIVE TUTORIAL
+# ==================================================================================================
+# 🚀 QUICK START GUIDE:
+# --------------------------------------------------------------------------------------------------
+# 1️⃣ AUTHENTICATE: Go to 'users.rest', run "Login", and copy the token.
+# 2️⃣ SETUP TOKEN: Paste that token into @authToken below.
+# 3️⃣ CREATE CARD: Run "Request 4" to create a card, then copy its "_id".
+# 4️⃣ SETUP ID: Paste that ID into @cardId below.
+# 5️⃣ TEST: Now you can run all other card management requests.
+# --------------------------------------------------------------------------------------------------
+
+@baseUrl = http://localhost:3000/api/v1
+@authToken =
+@cardId =
+
+# --------------------------------------------------------------------------------------------------
+# 🟢 PART 1: PUBLIC EXPLORATION (No Token Needed)
+# --------------------------------------------------------------------------------------------------
+
+### Request 1: Browse All Cards
+# See every public business card in the system.
+GET {{baseUrl}}/cards
+
+### Request 2: View Specific Card
+# Uses @cardId to fetch a single card's details.
+GET {{baseUrl}}/cards/{{cardId}}
+
+# --------------------------------------------------------------------------------------------------
+# 🔵 PART 2: CARD MANAGEMENT (Requires @authToken)
+# --------------------------------------------------------------------------------------------------
+
+### Request 3: View My Cards
+# List only the cards that belong to your authenticated account.
+GET {{baseUrl}}/cards/my-cards
+Authorization: Bearer {{authToken}}
+
+### Request 4: Create New Business Card
+# Only works if your user is a Business user or Admin.
+POST {{baseUrl}}/cards
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Fullstack Development",
+  "subtitle": "Node.js & React Expert",
+  "description": "Custom web development services and modern cloud architectures.",
+  "phone": "0524819034",
+  "email": "a.vance@techcorp.io",
+  "web": "https://techcorp.io",
+  "image": {
+    "url": "https://cdn.pixabay.com/photo/2015/01/08/18/25/desk-593327_1280.jpg",
+    "alt": "Developer Workspace"
+  },
+  "address": {
+    "state": "Ontario",
+    "country": "Canada",
+    "city": "Toronto",
+    "street": "Oakridge Avenue",
+    "houseNumber": 142,
+    "zip": "85412"
+  }
+}
+
+### Request 5: Update My Card
+# Modify the details of your existing card using @cardId.
+PUT {{baseUrl}}/cards/{{cardId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Fullstack & Cloud Architecture",
+  "subtitle": "Node.js, TypeScript & React Expert",
+  "description": "Advanced API design, system integration, and cloud deployments.",
+  "phone": "0524819034",
+  "email": "a.vance@techcorp.io",
+  "web": "https://techcorp.io",
+  "image": {
+    "url": "https://cdn.pixabay.com/photo/2015/01/08/18/25/desk-593327_1280.jpg",
+    "alt": "Modern Office Setup"
+  },
+  "address": {
+    "state": "Ontario",
+    "country": "Canada",
+    "city": "Toronto",
+    "street": "Oakridge Avenue",
+    "houseNumber": 142,
+    "zip": "85412"
+  }
+}
+
+### Request 6: Toggle Like/Unlike
+# Add or remove your like from a card.
+PATCH {{baseUrl}}/cards/{{cardId}}
+Authorization: Bearer {{authToken}}
+
+### Request 7: Update Business Number (Admin Only)
+# Change the unique identifier of a card (Requires Admin status).
+PATCH {{baseUrl}}/cards/{{cardId}}/biz-number
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "bizNumber": 7774441
+}
+
+### Request 8: Delete Card
+# Permanently remove a card (Owner or Admin only).
+DELETE {{baseUrl}}/cards/{{cardId}}
+Authorization: Bearer {{authToken}}
