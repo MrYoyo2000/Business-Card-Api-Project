@@ -4,13 +4,12 @@
   "description": "",
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "dotenv -e src/config/.env.development -- nodemon --exec tsx src/index.ts",
-    "test": "dotenv -e src/config/.env.test -- tsx src/index.ts",
-    "prod": "dotenv -e src/config/.env.production -- tsx src/index.ts",
-    "start": "npm run prod"
+"dev": "dotenvx run -f src/config/.env.development -f src/config/.env nodemon --exec tsx src/index.ts",
+    "prod": "dotenvx run -f src/config/.env.production -f src/config/.env tsx src/index.ts",
+    "test": "dotenvx run -f src/config/.env.test -f src/config/.env tsx src/index.ts"
   },
   "dependencies": {
     "@types/express": "^5.0.6",
@@ -32,6 +31,7 @@
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/node": "^26.4.1",
+    "@types/pino-http": "^5.8.4",
     "dotenv-cli": "^11.0.0",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",

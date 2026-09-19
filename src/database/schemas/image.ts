@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import {type Image} from "../../validations/image"
+import {type Image} from "../../validations/image.ts"
 
 export const imageDBSchema = new Schema<Image>({
 alt: {

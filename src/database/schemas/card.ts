@@ -1,11 +1,11 @@
 import {Schema} from "mongoose";
 import { z } from "zod";
-import { cardSchema } from "../../validations/card";
+import { cardSchema } from "../../validations/card.ts";
 import { ObjectId } from "mongodb";
-import { Address } from "../../validations/address";
-import { Image } from "../../validations/image";
-import { addressDBSchema } from "./address";
-import { imageDBSchema } from "./image";
+import { Address } from "../../validations/address.ts";
+import { Image } from "../../validations/image.ts";
+import { addressDBSchema } from "./address.ts";
+import { imageDBSchema } from "./image.ts";
 
 export type CardDB = z.infer<typeof cardSchema> & {
     userId: string;

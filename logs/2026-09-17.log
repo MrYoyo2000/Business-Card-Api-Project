@@ -1,0 +1,13 @@
+[2026-09-17T13:24:31.597Z] Status: 400 | Route: /api/v1/users | Message: Email already registered
+{"level":30,"time":1789653416763,"pid":47652,"hostname":"yossef_PC","msg":"Connecting to database [development] at Local MongoDB..."}
+{"level":30,"time":1789653416764,"pid":57912,"hostname":"yossef_PC","msg":"Connecting to database [development] at Local MongoDB..."}
+{"level":30,"time":1789653416763,"pid":58388,"hostname":"yossef_PC","msg":"Connecting to database [development] at Local MongoDB..."}
+{"level":30,"time":1789653416764,"pid":45768,"hostname":"yossef_PC","msg":"Connecting to database [development] at Local MongoDB..."}
+{"level":30,"time":1789653416858,"pid":58388,"hostname":"yossef_PC","msg":"✅ Connected to MongoDB"}
+{"level":30,"time":1789653416864,"pid":57912,"hostname":"yossef_PC","msg":"✅ Connected to MongoDB"}
+{"level":30,"time":1789653416864,"pid":47652,"hostname":"yossef_PC","msg":"✅ Connected to MongoDB"}
+{"level":30,"time":1789653416888,"pid":58388,"hostname":"yossef_PC","msg":"Server runs on: http://localhost:3000"}
+{"level":30,"time":1789653416873,"pid":45768,"hostname":"yossef_PC","msg":"✅ Connected to MongoDB"}
+{"level":30,"time":1789653416897,"pid":47652,"hostname":"yossef_PC","msg":"Server runs on: http://localhost:3000"}
+{"level":30,"time":1789653416897,"pid":57912,"hostname":"yossef_PC","msg":"Server runs on: http://localhost:3000"}
+{"level":30,"time":1789653416907,"pid":45768,"hostname":"yossef_PC","msg":"Server runs on: http://localhost:3000"}

@@ -1,6 +1,6 @@
 import { type Request, type RequestHandler } from "express";
-import validateToken from "./validate-token";
-import { HttpError } from "../error/custom-error";
+import validateToken from "./validate-token.ts";
+import { HttpError } from "../error/custom-error.ts";
 
 const isOwnerOrAdminHandler: RequestHandler = (req, res, next) => {
 

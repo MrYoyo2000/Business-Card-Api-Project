@@ -28,7 +28,11 @@ const userService = {
       throw new HttpError("Invalid email or password", 401);
     }
 
-    const isValidPassword = await user.comparePassword(password);
+    const isValidPassword = await (
+      user as typeof user & {
+        comparePassword(password: string): Promise<boolean>;
+      }
+    ).comparePassword(password);
     if (!isValidPassword) {
       logger.error("[loginUser]: Invalid credentials");
       throw new HttpError("Invalid email or password", 401);

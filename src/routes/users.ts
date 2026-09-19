@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { validateUser, validateUserUpdate } from "../middleware/validate.ts";
+import {
+  validateUser,
+  validateUserUpdate,
+  validateLogin,
+} from "../middleware/validate.ts";
 import { isAdmin } from "../middleware/is-admin.ts";
 import validateToken from "../middleware/validate-token.ts";
 import userService from "../services/user-service.ts";
@@ -17,7 +21,7 @@ router.post("/", validateUser, async (req, res, next) => {
 });
 
 // POST /api/v1/users/login - Login
-router.post("/login", async (req, res, next) => {
+router.post("/login", validateLogin, async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const token = await userService.loginUser(email, password);
@@ -27,8 +31,8 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-// GET /api/v1/users - User List (Admin)
-router.get("/", validateToken, isAdmin, async (req, res, next) => {
+// GET /api/v1/users - User List (Admin Only)
+router.get("/", validateToken, isAdmin, async (_req, res, next) => {
   try {
     const users = await userService.getUsers();
     res.json({ users });
@@ -56,23 +60,30 @@ router.get("/:id", validateToken, async (req, res, next) => {
 });
 
 // PUT /api/v1/users/:id - Account Update (Self Only)
-router.put("/:id", validateToken, validateUserUpdate, async (req, res, next) => {
-  try {
-    const requesterId = String(req.user?._id);
-    const targetUserId = String(req.params.id);
+router.put(
+  "/:id",
+  validateToken,
+  validateUserUpdate,
+  async (req, res, next) => {
+    try {
+      const requesterId = String(req.user?._id);
+      const targetUserId = String(req.params.id);
 
-    if (requesterId !== targetUserId) {
-      return res.status(403).json({ message: "Access denied. You can only update your own account." });
+      if (requesterId !== targetUserId) {
+        return res
+          .status(403)
+          .json({ message: "Access denied. You can only update your own account." });
+      }
+
+      const updatedUser = await userService.updateUser(targetUserId, req.body);
+      res.json({ user: updatedUser });
+    } catch (error) {
+      next(error);
     }
-
-    const updatedUser = await userService.updateUser(targetUserId, req.body);
-    res.json({ user: updatedUser });
-  } catch (error) {
-    next(error);
   }
-});
+);
 
-// PATCH /api/v1/users/:id - Change isBusiness status
+// PATCH /api/v1/users/:id - Change Business Status (Self Only)
 router.patch("/:id", validateToken, async (req, res, next) => {
   try {
     const requesterId = String(req.user?._id);
@@ -83,14 +94,23 @@ router.patch("/:id", validateToken, async (req, res, next) => {
     }
 
     const { isBusiness } = req.body;
-    const updatedUser = await userService.changeBusinessStatus(targetUserId, Boolean(isBusiness));
+    if (typeof isBusiness !== "boolean") {
+      return res
+        .status(400)
+        .json({ message: "Field 'isBusiness' must be a boolean." });
+    }
+
+    const updatedUser = await userService.changeBusinessStatus(
+      targetUserId,
+      isBusiness
+    );
     res.json({ user: updatedUser });
   } catch (error) {
     next(error);
   }
 });
 
-// DELETE /api/v1/users/:id - Delete Account
+// DELETE /api/v1/users/:id - Delete Account (Self or Admin)
 router.delete("/:id", validateToken, async (req, res, next) => {
   try {
     const requester = req.user!;

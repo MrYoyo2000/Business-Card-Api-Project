@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import {type Address} from "../../validations/address"
+import {type Address} from "../../validations/address.ts"
 
 export const addressDBSchema = new Schema ({
     country: {

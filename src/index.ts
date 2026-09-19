@@ -15,9 +15,7 @@ async function startServer() {
         const app = express();
 
         app.use(express.json());
-
         app.use(cors);
-
         app.use(httpLogger);
 
         app.use("/api/v1/users", usersRouter);
@@ -26,12 +24,14 @@ async function startServer() {
         app.use(notFound);
         app.use(errorHandler);
 
-        const { PORT } = env;
+        const PORT = env.PORT || 3000;
 
         app.listen(PORT, () => {
+            console.log(`🚀 Server runs on: http://localhost:${PORT}`);
             logger.info(`Server runs on: http://localhost:${PORT}`);
         });
     } catch (error) {
+        console.error("Failed to start server:", error);
         logger.error(`Failed to start server: ${error}`);
         process.exit(1);
     }

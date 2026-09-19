@@ -1,8 +1,8 @@
 import { type RequestHandler } from "express";
 import { type ZodType} from "zod";
-import { userSchema } from "../validations/user"
-import { loginSchema } from "../validations/login";
-import { cardSchema } from "../validations/card";
+import { userSchema } from "../validations/user.ts"
+import { loginSchema } from "../validations/login.ts";
+import { cardSchema } from "../validations/card.ts";
 
 export function validateSchema<T>(
     schema: ZodType<T>,
