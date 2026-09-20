@@ -1,104 +1,120 @@
-# 📇 Business Card API - Professional Technical Documentation
+# 📇 Business Card API - Engineering Documentation
 
-## 📖 1. Project Overview
-The **Business Card API** is a high-performance backend system designed to digitize professional networking. It allows users to create, manage, and share digital business cards. The system is built with a "Security-First" and "Type-Safe" approach, ensuring that data integrity is maintained from the moment a request hits the server until it is stored in the database.
+## 📖 1. Executive Summary
+The **Business Card API** is a professional-grade backend system engineered to provide a secure and scalable platform for digital business card management. The project implements a **Service-Oriented Architecture (SOA)**, emphasizing strict separation of concerns, runtime type safety, and comprehensive observability.
 
----
-
-## 🛠️ 2. The Technical Arsenal (Why these tools?)
-
-### 🏗️ Core Framework
-- **Node.js & TypeScript**: We use TypeScript to eliminate an entire class of runtime errors. By defining strict interfaces for Users and Cards, we ensure the code is self-documenting and robust.
-- **Express.js**: Chosen for its minimalism and massive ecosystem of middlewares.
-
-### 💾 Data & Validation
-- **MongoDB & Mongoose**: A NoSQL approach was chosen to allow flexibility in business card fields. Mongoose provides the structure needed to prevent "data chaos".
-- **Zod**: Unlike standard validation, Zod provides **Runtime Type Safety**. It guarantees that if a request passes the validation layer, the TypeScript types are 100% accurate in the services.
-
-### 🔐 Security Layer
-- **JOSE (JSON Object Signing and Encryption)**: Used instead of older libraries for JWT. It is lightweight, modern, and highly secure.
-- **Bcrypt**: Implements salted password hashing to ensure that even in case of a database leak, user passwords remain encrypted.
-- **CORS**: Configured to prevent unauthorized domains from accessing the API.
-
-### 📊 Observability
-- **Pino & pino-http**: We use the fastest logger in the Node.js ecosystem. It supports structured logging (JSON) for production and "Pretty Printing" for developers.
-- **dotenvx**: Manages environment variables across different stages (Dev, Test, Prod) without risking secret leaks.
+The primary goal is to bridge the gap between flexible NoSQL storage and strict TypeScript typing, ensuring that the API is both agile and bulletproof.
 
 ---
 
-## 🧬 3. Architecture Deep-Dive (A to Z)
+## 🛠️ 2. The Technical Ecosystem (Deep Dive)
 
-### The Request Lifecycle (The Journey of a Packet)
-When a client sends a request, it travels through these stages:
+### 🏗️ Core Infrastructure
+- **Node.js & TypeScript (v7.0+)**: Utilized to create a compile-time safety net. TypeScript interfaces are used across the entire project to ensure that a `User` object in the database is the same `User` object in the service and the route.
+- **Express.js**: Handles the HTTP layer. It is configured as a lean pipeline of middlewares.
 
-1. **Entry**: `src/index.ts` receives the request.
-2. **Security Gate**: `middleware/cors.ts` checks if the origin is allowed.
-3. **Logging**: `httpLogger` records the request start time and metadata.
-4. **Authentication**: `middleware/validate-token.ts` verifies the JWT. If valid, it attaches the `User` object to `req.user`.
-5. **Authorization**: `middleware/is-admin.ts` or `is-business.ts` checks if the user has the required role.
-6. **Validation**: `middleware/validate.ts` uses a **Zod Schema** to check the `req.body`. If a field is missing or wrong, it throws a `400 Bad Request` immediately.
-7. **Business Logic**: The `Service` (e.g., `card-service.ts`) processes the data, applies business rules (like unique business numbers), and talks to the database.
-8. **Persistence**: `database/models.ts` saves/retrieves data from MongoDB.
-9. **Response**: The result is sent back. If any error occurred at any stage, the `error-handler.ts` catches it and formats it into a professional JSON response.
+### 💾 Data Strategy
+- **MongoDB & Mongoose**: We use a document-oriented approach to support the naturally nested structure of business cards (Address $\rightarrow$ Card $\rightarrow$ User).
+- **Mongoose Model Methods**: We implement custom instance methods (e.g., `setPassword`, `comparePassword`) directly on the `userDbSchema` to encapsulate security logic within the data layer.
+- **Zod**: Implements **Runtime Schema Validation**. While TypeScript protects us during development, Zod protects the server during execution by validating `req.body` before it reaches any business logic.
+
+### 🔐 Security Implementation
+- **Stateless Auth (JWT)**: Implemented via the `jose` library. Tokens are signed with a secret key and include claims (`isAdmin`, `isBusiness`) to minimize database lookups.
+- **Password Security**: Uses `bcrypt` with a salt factor of 12, ensuring passwords are never stored in plain text.
+- **RBAC (Role-Based Access Control)**: Custom middlewares (`is-admin.ts`, `is-business.ts`) act as guards, checking the JWT claims before granting access to protected routes.
+
+### 📊 Observability & DevOps
+- **Pino Ecosystem**: We use `pino` for high-performance logging.
+    - **Development**: `pino-pretty` provides color-coded, readable logs.
+    - **Production**: JSON-structured logs for seamless integration with log aggregators.
+- **dotenvx**: Advanced environment management that allows the API to switch between `.env.development`, `.env.test`, and `.env.production` seamlessly.
 
 ---
 
-## 📂 4. Folder Dictionary
+## 🧬 3. The Architecture: Flow of a Request
 
-| Folder | Purpose | Key Component |
+The project is structured as a pipeline. A request to create a card (`POST /api/v1/cards`) follows this exact path:
+
+1.  **`src/index.ts`**: The request enters. `express.json()` parses the raw body.
+2.  **`middleware/cors.ts`**: Validates that the request comes from an authorized origin.
+3.  **`middleware/validate-token.ts`**: Verifies the JWT in the `Authorization` header. It fetches the user from MongoDB and attaches it to `req.user`.
+4.  **`middleware/is-business.ts`**: Checks if `req.user.isBusiness === true`.
+5.  **`middleware/validate.ts`**: Passes `req.body` through the `cardSchema` (Zod). If a field like `email` is invalid, it throws a `400` error immediately.
+6.  **`routes/cards.ts`**: The route simply calls the service: `cardService.createCard(req.body, userId)`.
+7.  **`services/card-service.ts`**: The "Brain". It generates a unique `bizNumber`, handles the Mongoose `create` call, and returns the result.
+8.  **`database/models.ts`**: The data is persisted in MongoDB.
+9.  **`middleware/error-handler.ts`**: If any of the above steps failed, this final middleware catches the error and sends a professional JSON response.
+
+---
+
+## 📂 4. Folder Mapping (The A-Z Dictionary)
+
+| Path | Component | Technical Role |
 | :--- | :--- | :--- |
-| `src/@types` | Extends native types (e.g., adding `.user` to Express Request). | `express.d.ts` |
-| `src/config` | Validates and exports environment variables. | `index.ts` |
-| `src/database` | Manages DB connection and data structure. | `connect.ts`, `schemas/` |
-| `src/error` | Defines custom error classes for consistent API responses. | `custom-error.ts` |
-| `src/logger` | Configures the Pino logging system. | `logger.ts` |
-| `src/middleware` | Logic that runs *between* the request and the route. | `validate.ts`, `validate-token.ts` |
-| `src/routes` | Maps URLs to the correct service logic. | `users.ts`, `cards.ts` |
-| `src/services` | The "Brain". Pure business logic, independent of Express. | `user-service.ts`, `card-service.ts` |
-| `src/validations` | Zod blueprints for every single input. | `user.ts`, `card.ts` |
+| `src/@types` | **Global Types** | Extends `Express.Request` to include the `user` property globally. |
+| `src/config` | **Environment** | Uses Zod to validate `.env` variables on startup. |
+| `src/database` | **Persistence** | `connect.ts` (Connection), `init-db.ts` (Seeding), `schemas/` (DB Structure). |
+| `src/error` | **Exception Mgmt** | Custom classes like `HttpError` and `NotFoundError`. |
+| `src/logger` | **Observability** | Centralized Pino configuration for console and file logs. |
+| `src/middleware` | **Interceptors** | Authentication, Authorization, and Zod Validation. |
+| `src/routes` | **API Surface** | Maps HTTP verbs and paths to Service functions. |
+| `src/services` | **Business Logic** | Pure logic. Handles hashing, JWTs, and DB queries. |
+| `src/validations` | **Contract** | Zod schemas defining the "legal" shape of every request. |
 
 ---
 
-## 🚀 5. Command Center (Execution Guide)
+## 🚀 5. Operational Commands
 
-The project uses `dotenvx` to switch environments instantly.
+The project uses `tsx` for instant execution without a separate build step.
 
-### 💻 Development Mode
-**Command**: `pnpm dev`
-- **Environment**: `src/config/.env.development`
-- **Behavior**: Uses `nodemon` $\rightarrow$ Server restarts automatically when you save a file.
-- **Logs**: Colorized and human-readable.
+### 💻 Development
+`npm run dev / pnpm dev`
+- **Env**: `.env.development`
+- **Feature**: Nodemon auto-restart + Colorized logs.
 
-### 🧪 Testing Mode
-**Command**: `pnpm test`
-- **Environment**: `src/config/.env.test`
-- **Behavior**: Connects to a dedicated test database to avoid corrupting real data.
+### 🧪 Testing
+`npm run test / pnpm test`
+- **Env**: `.env.test`
+- **Feature**: Isolated test database for QA.
 
-### 📦 Production Mode
-**Command**: `pnpm prod`
-- **Environment**: `src/config/.env.production`
-- **Behavior**: Optimized for speed, logs are structured as JSON for ingestion by tools like ELK or Datadog.
-
----
-
-## 🛠️ 6. Installation & First-Run
-
-1. **Clone the repo**
-2. **Install**: `npm install`
-3. **Environment**: Setup your `.env` file with `DB_CONNECTION_STRING`, `JWT_SECRET`, and `PORT`.
-4. **Launch**: `npm run dev`
+### 📦 Production
+`npm run prod / pnpm prod `
+- **Env**: `.env.production`
+- **Feature**: Optimized performance + JSON structured logs.
 
 ---
 
-## 🚦 API Summary
+## 🛠️ 6. First-Time Setup
 
-### User Endpoints
-- `POST /api/v1/users` $\rightarrow$ Register.
-- `POST /api/v1/users/login` $\rightarrow$ Login $\rightarrow$ Get JWT.
-- `GET /api/v1/users/:id` $\rightarrow$ View Profile (User/Admin).
+1. **Clone & Install**:
+   ```bash
+   git clone <repo-url>
+   npm install
+   ```
+2. **Environment Config**:
+   Create a `.env` file with:
+   - `DB_CONNECTION_STRING` (MongoDB URI)
+   - `JWT_SECRET` (Strong random key)
+   - `PORT` (Default: 3000)
+   - `NODE_ENV` (development/production)
+3. **Launch**:
+   ```bash
+   npm run dev
+   ```
 
-### Card Endpoints
-- `POST /api/v1/cards` $\rightarrow$ Create Card (Business Users Only).
-- `GET /api/v1/cards` $\rightarrow$ Explore all cards.
-- `PATCH /api/v1/cards/:id` $\rightarrow$ Like/Unlike.
-- `DELETE /api/v1/cards/:id` $\rightarrow$ Delete (Owner/Admin).
+---
+
+## 🚦 Endpoint Matrix
+
+### Users
+- `POST /api/v1/users` $\rightarrow$ Register (Public)
+- `POST /api/v1/users/login` $\rightarrow$ Login $\rightarrow$ Returns JWT (Public)
+- `GET /api/v1/users/:id` $\rightarrow$ Profile (Owner/Admin)
+- `PUT /api/v1/users/:id` $\rightarrow$ Update (Owner)
+
+### Business Cards
+- `POST /api/v1/cards` $\rightarrow$ Create (Business User)
+- `GET /api/v1/cards` $\rightarrow$ List all (Public)
+- `GET /api/v1/cards/my-cards` $\rightarrow$ My cards (User)
+- `PATCH /api/v1/cards/:id` $\rightarrow$ Like/Unlike (User)
+- `DELETE /api/v1/cards/:id` $\rightarrow$ Delete (Owner/Admin)
