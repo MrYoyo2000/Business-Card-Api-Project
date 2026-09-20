@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3000/api/v1
-@authToken = eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2YTcwNzU4ZTBmNWM1YjJiNzNmNTgxYTUiLCJlbWFpbCI6InJvbmkuYmVuYW11QGdtYWlsLmNvbSIsImlzQnVzaW5lc3MiOnRydWUsImlzQWRtaW4iOnRydWUsImV4cCI6MTc4OTg0NjIzMiwiaWF0IjoxNzg5ODM5MDMyfQ.9f-oT3UaWvRqorQoQjFNk-JhK4WkuXqeWFs8XKqZexg
-@userId = 6a70758e0f5c5b2b73f581a5
+@authToken = eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2YWFlZGQ4MmNmOGU2ZjY5MGI1M2Q4YTkiLCJlbWFpbCI6Inlvc3NlZi5iZW5hbXVAZ21haWwuY29tIiwiaXNCdXNpbmVzcyI6dHJ1ZSwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNzg5ODUyMDgzLCJpYXQiOjE3ODk4NDQ4ODN9.seXllwyTVxet8B5y2wabsvF2HQmkQL5JGru-ptJwwbw
+@userId = 6aaedd82cf8e6f690b53d8a9
 
 ### 1. Register / Create New User
 POST {{baseUrl}}/users
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "name": {
-    "first": "roni",
+    "first": "yossef",
     "middleName": "",
     "last": "benamu"
   },
@@ -25,7 +25,7 @@ Content-Type: application/json
     "url": "https://picsum.photos/200/300"
   },
   "phone": "0547898883",
-  "email": "roni.benamu@gmail.com",
+  "email": "yossef.benamu@gmail.com",
   "isBusiness": true,
   "password": "Roni-b707!"
 }
@@ -69,7 +69,7 @@ Content-Type: application/json
   },
   "image": {
     "alt": "user-profile",
-    "url": "https://picsum.photos/200/300"
+    "url": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
   },
   "phone": "0547898883"
 }

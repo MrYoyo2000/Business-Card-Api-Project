@@ -29,8 +29,7 @@ router.get("/my-cards", validateToken, async (req, res, next) => {
 });
 
 // PATCH /api/v1/cards/biz-number/:id - Update bizNumber (Admin Only)
-// Placé AVANT /:id pour éviter les conflits d'URL
-router.patch("/biz-number/:id", ...isAdmin, async (req, res, next) => {
+router.patch("/biz-number/:id", validateToken, isAdmin, async (req, res, next) => {
   try {
     const { bizNumber } = req.body;
     if (!bizNumber || isNaN(Number(bizNumber))) {
@@ -47,10 +46,13 @@ router.patch("/biz-number/:id", ...isAdmin, async (req, res, next) => {
   }
 });
 
-// GET /api/v1/cards/:id - Get specific card
+// GET /api/v1/cards/:id - Get specific card (Public)
 router.get("/:id", async (req, res, next) => {
   try {
     const card = await cardService.getCard(req.params.id as string);
+    if (!card) {
+      return res.status(404).json({ message: "Card not found" });
+    }
     res.json({ card });
   } catch (error) {
     next(error);
@@ -58,7 +60,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // POST /api/v1/cards - Create new card (Business / Admin)
-router.post("/", ...isBusiness, validateCard, async (req, res, next) => {
+router.post("/", validateToken, isBusiness, validateCard, async (req, res, next) => {
   try {
     const userId = String(req.user?._id);
     const card = await cardService.createCard(req.body, userId);
@@ -100,11 +102,13 @@ router.patch("/:id", validateToken, async (req, res, next) => {
 // DELETE /api/v1/cards/:id - Delete card (Owner / Admin)
 router.delete("/:id", validateToken, async (req, res, next) => {
   try {
-    const user = req.user!;
+    const userId = String(req.user?._id);
+    const isAdmin = Boolean(req.user?.isAdmin);
+
     const deletedCard = await cardService.deleteCard(
       req.params.id as string,
-      String(user._id),
-      user.isAdmin
+      userId,
+      isAdmin
     );
     res.json({ message: "Card deleted successfully", card: deletedCard });
   } catch (error) {

@@ -2,6 +2,7 @@ import { type Card as CardRequest } from "../validations/card.ts";
 import { CardModel } from "../database/models.ts";
 import { logger } from "../logger/logger.ts";
 import { NotFoundError, HttpError } from "../error/custom-error.ts";
+import mongoose from "mongoose";
 
 const cardService = {
   getCards: async () => {
@@ -10,6 +11,11 @@ const cardService = {
   },
 
   getCard: async (cardId: string) => {
+    if (!mongoose.Types.ObjectId.isValid(cardId)) {
+      logger.error("[getCard]: Invalid Card ID format");
+      throw new NotFoundError("No such card found");
+    }
+
     const card = await CardModel.findById(cardId);
     if (!card) {
       logger.error("[getCard]: No such card found");
@@ -19,8 +25,8 @@ const cardService = {
   },
 
   getMyCards: async (userId: string) => {
-    const card = await CardModel.find({ userId });
-    return card;
+    const cards = await CardModel.find({ userId: String(userId) });
+    return cards;
   },
 
   createCard: async (cardData: CardRequest, userId: string) => {
@@ -32,7 +38,7 @@ const cardService = {
 
     const savedCard = await CardModel.create({
       ...cardData,
-      userId,
+      userId: String(userId),
       bizNumber,
     });
 
@@ -40,6 +46,11 @@ const cardService = {
   },
 
   updateCard: async (cardId: string, cardData: CardRequest, userId: string) => {
+    if (!mongoose.Types.ObjectId.isValid(cardId)) {
+      logger.error("[updateCard]: Invalid Card ID format");
+      throw new NotFoundError("No such card found");
+    }
+
     const card = await CardModel.findById(cardId);
     if (!card) {
       logger.error("[updateCard]: No such card found");
@@ -52,33 +63,57 @@ const cardService = {
       throw new HttpError("You can only update your own cards", 403);
     }
 
-    const updatedCard = await CardModel.findByIdAndUpdate(cardId, cardData, { new: true });
-    if (!updatedCard) {
-      throw new NotFoundError("No such card found");
-    }
+    const updatedCard = await CardModel.findByIdAndUpdate(cardId, cardData, {
+      new: true,
+    });
     return updatedCard;
   },
 
   logLikes: async (cardId: string, userId: string) => {
+    if (!mongoose.Types.ObjectId.isValid(cardId)) {
+      logger.error("[logLikes]: Invalid Card ID format");
+      throw new NotFoundError("No such card found");
+    }
+
     const card = await CardModel.findById(cardId);
     if (!card) {
       logger.error("[logLikes]: No such card found");
       throw new NotFoundError("No such card found");
     }
 
-    const currentLikes = (card.likes || []).map((id) => String(id));
-    const index = currentLikes.indexOf(String(userId));
+    const normalizedUserId = String(userId);
+    const likesArray = (card.likes || []).map((id) => String(id));
+    const hasLiked = likesArray.includes(normalizedUserId);
 
-    const update = index === -1
-      ? { $addToSet: { likes: userId } }
-      : { $pull: { likes: userId } };
+    const updateQuery = hasLiked
+      ? { $pull: { likes: normalizedUserId } }
+      : { $addToSet: { likes: normalizedUserId } };
 
-    const savedCard = await CardModel.findByIdAndUpdate(cardId, update, { new: true });
-    return savedCard;
+    const updatedCard = await CardModel.findByIdAndUpdate(
+      cardId,
+      updateQuery,
+      { new: true }
+    );
+
+    return updatedCard;
   },
 
   changeBusinessNumber: async (cardId: string, bizNumber: number) => {
-    const existingCard = await CardModel.findOne({ bizNumber });
+    if (!mongoose.Types.ObjectId.isValid(cardId)) {
+      logger.error("[changeBusinessNumber]: Invalid Card ID format");
+      throw new NotFoundError("No such card found");
+    }
+
+    const numericBizNumber = Number(bizNumber);
+    if (isNaN(numericBizNumber)) {
+      throw new HttpError("Invalid business number format", 400);
+    }
+
+    const existingCard = await CardModel.findOne({
+      bizNumber: numericBizNumber,
+      _id: { $ne: cardId },
+    });
+
     if (existingCard) {
       logger.error("[changeBusinessNumber]: Biz number already in use");
       throw new HttpError("Biz number already taken", 400);
@@ -86,7 +121,7 @@ const cardService = {
 
     const updatedCard = await CardModel.findByIdAndUpdate(
       cardId,
-      { bizNumber },
+      { bizNumber: numericBizNumber },
       { new: true }
     );
 
@@ -98,7 +133,12 @@ const cardService = {
     return updatedCard;
   },
 
-  deleteCard: async (cardId: string, userId: string, isAdmin: boolean) => {
+  deleteCard: async (cardId: string, userId: string, isAdmin: boolean = false) => {
+    if (!mongoose.Types.ObjectId.isValid(cardId)) {
+      logger.error("[deleteCard]: Invalid Card ID format");
+      throw new NotFoundError("No such card found");
+    }
+
     const card = await CardModel.findById(cardId);
     if (!card) {
       logger.error("[deleteCard]: No such card found");
@@ -106,9 +146,15 @@ const cardService = {
     }
 
     const cardOwnerId = String(card.userId);
-    if (cardOwnerId !== String(userId) && !isAdmin) {
+    const requestingUserId = String(userId);
+    const userIsAdmin = Boolean(isAdmin);
+
+    if (cardOwnerId !== requestingUserId && !userIsAdmin) {
       logger.error("[deleteCard]: Unauthorized card deletion attempt");
-      throw new HttpError("Only the card owner or an admin can delete this card", 403);
+      throw new HttpError(
+        "Only the card owner or an admin can delete this card",
+        403
+      );
     }
 
     const deletedCard = await CardModel.findByIdAndDelete(cardId);

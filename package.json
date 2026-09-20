@@ -7,9 +7,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-"dev": "dotenvx run -f src/config/.env.development -f src/config/.env nodemon --exec tsx src/index.ts",
-    "prod": "dotenvx run -f src/config/.env.production -f src/config/.env tsx src/index.ts",
-    "test": "dotenvx run -f src/config/.env.test -f src/config/.env tsx src/index.ts"
+    "dev": "dotenvx run --env-file=src/config/.env.development --env-file=src/config/.env -- nodemon --exec tsx src/index.ts",
+    "prod": "dotenvx run --env-file=src/config/.env.production --env-file=src/config/.env -- tsx src/index.ts",
+    "test": "dotenvx run --env-file=src/config/.env.test --env-file=src/config/.env -- tsx src/index.ts"
   },
   "dependencies": {
     "@types/express": "^5.0.6",

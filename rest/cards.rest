@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3000/api/v1
-@authToken = eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2YTcwNzU4ZTBmNWM1YjJiNzNmNTgxYTUiLCJlbWFpbCI6InJvbmkuYmVuYW11QGdtYWlsLmNvbSIsImlzQnVzaW5lc3MiOnRydWUsImlzQWRtaW4iOnRydWUsImV4cCI6MTc4OTg0NjIzMiwiaWF0IjoxNzg5ODM5MDMyfQ.9f-oT3UaWvRqorQoQjFNk-JhK4WkuXqeWFs8XKqZexg
-@cardId = 6a70758e0f5c5b2b73f581a5
+@authToken = eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2YWFlZGQyMGNmOGU2ZjY5MGI1M2Q4YTciLCJlbWFpbCI6InJvbmkuYmVuYW11QGdtYWlsLmNvbSIsImlzQnVzaW5lc3MiOnRydWUsImlzQWRtaW4iOnRydWUsImV4cCI6MTc4OTkwNzQ4NCwiaWF0IjoxNzg5OTAwMjg0fQ.MpAu4gk5Hk0eMRkI4xrO8ur4Mw_5T7FvjTL-muuE7FI
+@cardId = 6aaede34cf8e6f690b53d8ac
 
 ### 1. Create New Card (Business / Admin Only)
 POST {{baseUrl}}/cards
@@ -8,7 +8,7 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "title": "roni",
+  "title": "yossef benamu",
   "subtitle": "full stack dev",
   "description": "portfolio",
   "web": "https://yossef-portfolio.netlify.app/",
@@ -16,16 +16,16 @@ Content-Type: application/json
     "street": "nez hehalav",
     "city": "modiin",
     "country": "israel",
-    "state": "1",
+    "state": "IL",
     "houseNumber": 3,
-    "zip": 1234522
+    "zip": "1234522"
   },
   "image": {
     "alt": "user-profile",
-    "url": "https://picsum.photos/200/300"
+    "url": "https://yossef-portfolio.netlify.app/imege/WhatsApp%20Image%202026-02-06%20at%202.01.11%20PM.jpeg"
   },
   "phone": "0547898883",
-  "email": "roni.benamu@gmail.com"
+  "email": "yossef.benamu@gmail.com"
 }
 
 ### 2. Get All Cards (Public)
@@ -44,7 +44,7 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "title": "roni benamu",
+  "title": "yossef",
   "subtitle": "Full Stack Senior Developer",
   "description": "Updated web development portfolio and services",
   "web": "https://yossef-portfolio.netlify.app/",
