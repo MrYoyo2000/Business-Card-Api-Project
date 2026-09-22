@@ -25,8 +25,8 @@ The primary goal is to bridge the gap between flexible NoSQL storage and strict 
 
 ### 📊 Observability & DevOps
 - **Pino Ecosystem**: We use `pino` for high-performance logging.
-    - **Development**: `pino-pretty` provides color-coded, readable logs.
-    - **Production**: JSON-structured logs for seamless integration with log aggregators.
+- **Development**: `pino-pretty` provides color-coded, readable logs.
+- **Production**: JSON-structured logs for seamless integration with log aggregators.
 - **dotenvx**: Advanced environment management that allows the API to switch between `.env.development`, `.env.test`, and `.env.production` seamlessly.
 
 ---
@@ -88,19 +88,19 @@ The project uses `tsx` for instant execution without a separate build step.
 
 1. **Clone & Install**:
    ```bash
-   git clone <repo-url>
-   npm install
+    git clone <https://github.com/MrYoyo2000/Business-Card-Api-Project>
+    npm install
    ```
 2. **Environment Config**:
-   Create a `.env` file with:
-   - `DB_CONNECTION_STRING` (MongoDB URI)
-   - `JWT_SECRET` (Strong random key)
-   - `PORT` (Default: 3000)
-   - `NODE_ENV` (development/production)
+    Create a `.env` file with:
+    - `DB_CONNECTION_STRING` (MongoDB URI)
+    - `JWT_SECRET` (Strong random key)
+    - `PORT` (Default: 3000)
+    - `NODE_ENV` (development/production)
 3. **Launch**:
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
 ---
 
