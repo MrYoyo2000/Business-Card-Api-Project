@@ -4,7 +4,7 @@ import { nameSchema } from "./name.ts";
 import { passwordRegex, phoneRegex } from "./patterns.ts";
 import { imageSchema } from "./image.ts";
 
-export const userSchema = z.object({
+export const userSchema = z.strictObject({
     address: addressSchema,
     email: z.string().email().min(5).max(250, "Email must be between 5 and 250 characters long"),
     name: nameSchema,

@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/api/v1
-@authToken = eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2YWFlZGQyMGNmOGU2ZjY5MGI1M2Q4YTciLCJlbWFpbCI6InJvbmkuYmVuYW11QGdtYWlsLmNvbSIsImlzQnVzaW5lc3MiOnRydWUsImlzQWRtaW4iOnRydWUsImV4cCI6MTc4OTkwNzQ4NCwiaWF0IjoxNzg5OTAwMjg0fQ.MpAu4gk5Hk0eMRkI4xrO8ur4Mw_5T7FvjTL-muuE7FI
+@authToken = eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2YWIyNDdmOGNmOGU2ZjY5MGI1M2Q4YjIiLCJlbWFpbCI6ImJlbmFtdUBnbWFpbC5jb20iLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjpmYWxzZSwiZXhwIjoxNzkwMDc1OTY5LCJpYXQiOjE3OTAwNjg3Njl9.R_szTzXGvmJvsTRC8srOuSsHyHkrmLMmRCfifXZR5Q8
 @cardId = 6aaede34cf8e6f690b53d8ac
 
 ### 1. Create New Card (Business / Admin Only)
@@ -8,10 +8,10 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "title": "yossef benamu",
-  "subtitle": "full stack dev",
-  "description": "portfolio",
-  "web": "https://yossef-portfolio.netlify.app/",
+  "title": "David benamu",
+  "subtitle": "SVP - R&D and Generative AI manager",
+  "description": "Citi grup",
+  "web": "https://www.linkedin.com/in/david-benamu/",
   "address": {
     "street": "nez hehalav",
     "city": "modiin",
@@ -22,10 +22,10 @@ Content-Type: application/json
   },
   "image": {
     "alt": "user-profile",
-    "url": "https://yossef-portfolio.netlify.app/imege/WhatsApp%20Image%202026-02-06%20at%202.01.11%20PM.jpeg"
+    "url": "https://media.licdn.com/dms/image/v2/C4D03AQF1_iD7CN94hQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1654257307296?e=1791417600&v=beta&t=_e6b1FcfxLZy2F9v5ZwNYA4LYStJuO-DToqOswMvXO4"
   },
-  "phone": "0547898883",
-  "email": "yossef.benamu@gmail.com"
+  "phone": "0546746541",
+  "email": "benamu@gmail.com"
 }
 
 ### 2. Get All Cards (Public)
