@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3000/api/v1
-@authToken = eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2YWFlZGQ4MmNmOGU2ZjY5MGI1M2Q4YTkiLCJlbWFpbCI6Inlvc3NlZi5iZW5hbXVAZ21haWwuY29tIiwiaXNCdXNpbmVzcyI6dHJ1ZSwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNzg5ODUyMDgzLCJpYXQiOjE3ODk4NDQ4ODN9.seXllwyTVxet8B5y2wabsvF2HQmkQL5JGru-ptJwwbw
-@userId = 6aaedd82cf8e6f690b53d8a9
+@authToken = your Token
+@userId = your userId
 
 ### 1. Register / Create New User
 POST {{baseUrl}}/users
@@ -8,26 +8,26 @@ Content-Type: application/json
 
 {
   "name": {
-    "first": "yossef",
-    "middleName": "",
-    "last": "benamu"
+    "first": "your first",
+    "middleName": "your middleName",
+    "last": "your last"
   },
   "address": {
-    "street": "נץ החלב",
-    "city": "modiin",
-    "country": "israel",
-    "state": "10",
-    "houseNumber": 10,
-    "zip": "12345"
+    "street": "your street",
+    "city": "your city",
+    "country": "your country",
+    "state": "your state",
+    "houseNumber": "your houseNumber" , // is type: Number
+    "zip": "your zip"
   },
   "image": {
-    "alt": "user-profile",
-    "url": "https://picsum.photos/200/300"
+    "alt": "your alt",
+    "url": "your image url"
   },
-  "phone": "0547898883",
-  "email": "yossef.benamu@gmail.com",
+  "phone": "your phone number",
+  "email": "your email",
   "isBusiness": true,
-  "password": "Roni-b707!"
+  "password": "your password"
 }
 
 ### 2. Login User
@@ -36,8 +36,8 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-  "email": "roni.benamu@gmail.com",
-  "password": "Roni-b707!"
+  "email": "your email",
+  "password": "your password"
 }
 
 ### 3. Get All Users (Admin Only)
@@ -55,23 +55,23 @@ Content-Type: application/json
 
 {
   "name": {
-    "first": "yossef",
-    "middleName": "",
-    "last": "benamu"
+    "first": "your first",
+    "middleName": "your middleName",
+    "last": "your last"
   },
   "address": {
-    "street": "נץ החלב",
-    "city": "modiin",
-    "country": "israel",
-    "state": "10",
-    "houseNumber": 10,
-    "zip": "12345"
+    "street": "your street",
+    "city": "your city",
+    "country": "your country",
+    "state": "your state",
+    "houseNumber": "your houseNumber" , // is type: Number
+    "zip": "your zip"
   },
   "image": {
-    "alt": "user-profile",
-    "url": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+    "alt": "your alt",
+    "url": "your image url"
   },
-  "phone": "0547898883"
+  "phone": "your phone number"
 }
 
 ### 6. Toggle Business Status (PATCH)

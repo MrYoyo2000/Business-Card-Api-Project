@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3000/api/v1
-@authToken = eyJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2YWIyNDdmOGNmOGU2ZjY5MGI1M2Q4YjIiLCJlbWFpbCI6ImJlbmFtdUBnbWFpbC5jb20iLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjpmYWxzZSwiZXhwIjoxNzkwMDc1OTY5LCJpYXQiOjE3OTAwNjg3Njl9.R_szTzXGvmJvsTRC8srOuSsHyHkrmLMmRCfifXZR5Q8
-@cardId = 6aaede34cf8e6f690b53d8ac
+@authToken = your Token
+@cardId = your cardId
 
 ### 1. Create New Card (Business / Admin Only)
 POST {{baseUrl}}/cards
@@ -8,24 +8,24 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "title": "David benamu",
-  "subtitle": "SVP - R&D and Generative AI manager",
-  "description": "Citi grup",
-  "web": "https://www.linkedin.com/in/david-benamu/",
+  "title": "title",
+  "subtitle": "subtitle",
+  "description": "description",
+  "web": " your url websit",
   "address": {
-    "street": "nez hehalav",
-    "city": "modiin",
-    "country": "israel",
-    "state": "IL",
-    "houseNumber": 3,
-    "zip": "1234522"
+    "street": "your street",
+    "city": "your city",
+    "country": "your country",
+    "state": "your state", 
+    "houseNumber": "your houseNumber" , // is type: Number
+    "zip": "your zip"
   },
   "image": {
-    "alt": "user-profile",
-    "url": "https://media.licdn.com/dms/image/v2/C4D03AQF1_iD7CN94hQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1654257307296?e=1791417600&v=beta&t=_e6b1FcfxLZy2F9v5ZwNYA4LYStJuO-DToqOswMvXO4"
+    "alt": "your alt",
+    "url": "your image url"
   },
-  "phone": "0546746541",
-  "email": "benamu@gmail.com"
+  "phone": "your phone number",
+  "email": "your email"
 }
 
 ### 2. Get All Cards (Public)
@@ -44,24 +44,24 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "title": "yossef",
-  "subtitle": "Full Stack Senior Developer",
-  "description": "Updated web development portfolio and services",
-  "web": "https://yossef-portfolio.netlify.app/",
+  "title": "title",
+  "subtitle": "subtitle",
+  "description": "description",
+  "web": "your url websit",
   "address": {
-    "street": "nez hehalav",
-    "city": "modiin",
-    "country": "israel",
-    "state": "1",
-    "houseNumber": 3,
-    "zip": 1234522
+    "street": "your street",
+    "city": "your city",
+    "country": "your country",
+    "state": "your state",
+    "houseNumber": "your houseNumber" , // is type: Number
+    "zip": "your zip"
   },
   "image": {
-    "alt": "user-profile",
-    "url": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+    "alt": "your alt",
+    "url": "your image url"
   },
-  "phone": "089755086",
-  "email": "roni.benamu@gmail.com"
+  "phone": "your phone number",
+  "email": "your email"
 }
 
 ### 6. Toggle Like Status (Logged-in User)
